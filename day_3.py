@@ -11,48 +11,47 @@ def main():
 	length = 30000
 	grid = [[0 for x in range(length)] for i in range(length)]
 
-	# set of location tuples
-	cross_points = set()
-
 	# start in center of grid
 	pos = (len(grid)/2, len(grid)/2)
 
 	# mark spots where wire 1 is
+	steps = 0
 	for step in wire1.split(','):
 		direction = get_direction(step)
 		distance = get_distance(step)
 
 		for i in range(distance):
 			pos = move(pos, direction)
+			steps += 1
 
 			# mark grid
-			grid[pos[0]][pos[1]] = 1
-			print("marked {}".format(pos))
+			if grid[pos[0]][pos[1]] == 0:
+				grid[pos[0]][pos[1]] = steps
 
 	# reset to center of grid
 	pos = (len(grid)/2, len(grid)/2)
+	
+	# set of location tuples
+	smallest_dist = None
 
 	# walk wire 2 and keep track of where it crosses wire 1
+	steps = 0
 	for step in wire2.split(','):
 		direction = get_direction(step)
 		distance = get_distance(step)
 
 		for i in range(distance):
 			pos = move(pos, direction)
+			steps += 1
 
-			if grid[pos[0]][pos[1]] == 1:
-				cross_points.add(pos)
+			if grid[pos[0]][pos[1]] > 0:
+				dist = steps + grid[pos[0]][pos[1]]
+				if smallest_dist is None or smallest_dist > dist:
+					smallest_dist = dist
+				# clear out that grid position so we don't count it again
+				grid[pos[0]][pos[1]] = 0
 
-	# get closest cross point to center
-	center = (len(grid)/2, len(grid)/2)
-	closest = None
-	for point in cross_points:
-		if point != center:
-			dist = abs(point[0] - center[0]) + abs(point[1] - center[1])
-			if closest is None or closest > dist:
-				closest = dist
-
-	print(closest)
+	print(smallest_dist)
 
 
 def move(pos, direction):
