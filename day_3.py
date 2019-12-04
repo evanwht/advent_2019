@@ -57,13 +57,13 @@ def main():
 def move(pos, direction):
 	# move x or y position based on direction
 	if direction == 'U':
-		return (pos[0], pos[1] + 1)
+		return pos[0], pos[1] + 1
 	elif direction == 'D':
-		return (pos[0], pos[1] - 1)
+		return pos[0], pos[1] - 1
 	elif direction == 'L':
-		return (pos[0] - 1, pos[1])
+		return pos[0] - 1, pos[1]
 	else:
-		return (pos[0] + 1, pos[1])
+		return pos[0] + 1, pos[1]
 
 
 def get_direction(step):
