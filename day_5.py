@@ -21,11 +21,43 @@ def get_output(values):
 			values[values[i+3]] = f_val * s_val
 			i += 4
 		elif op == 3:
-			values[values[i+1]] = 1
+			values[values[i+1]] = 5
 			i += 2
 		elif op == 4:
 			print(values[values[i+1]])
 			i += 2
+		elif op == 5:
+			first = values[i] / 100 % 10 > 1
+			second = values[i] / 1000 % 10 > 1
+			f_val = values[i + 1] if first else values[values[i + 1]]
+			s_val = values[i + 2] if second else values[values[i + 2]]
+			if f_val != 0:
+				i = s_val
+			else:
+				i += 3
+		elif op == 6:
+			first = values[i] / 100 % 10 > 1
+			second = values[i] / 1000 % 10 > 1
+			f_val = values[i + 1] if first else values[values[i + 1]]
+			s_val = values[i + 2] if second else values[values[i + 2]]
+			if f_val == 0:
+				i = s_val
+			else:
+				i += 3
+		elif op == 7:
+			first = values[i] / 100 % 10 > 1
+			second = values[i] / 1000 % 10 > 1
+			f_val = values[i + 1] if first else values[values[i + 1]]
+			s_val = values[i + 2] if second else values[values[i + 2]]
+			values[values[i+3]] = 1 if f_val < s_val else 0
+			i += 4
+		elif op == 8:
+			first = values[i] / 100 % 10 > 1
+			second = values[i] / 1000 % 10 > 1
+			f_val = values[i + 1] if first else values[values[i + 1]]
+			s_val = values[i + 2] if second else values[values[i + 2]]
+			values[values[i+3]] = 1 if f_val == s_val else 0
+			i += 4
 		elif op == 99:
 			return values[0]
 		else:
