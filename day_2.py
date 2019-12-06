@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 __author__ = "evanwht1@gmail.com"
 
-import math
-import sys
-
 
 def get_output(values):
 	for i in range(0, len(values), 4):

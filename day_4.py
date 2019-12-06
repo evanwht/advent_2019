@@ -4,7 +4,7 @@ __author__ = "evanwht1@gmail.com"
 
 class Stack:
 	def __init__(self, v=None):
-		self.data = [] is v == None else [v]
+		self.data = [] if v is None else [v]
 
 	def top(self):
 		return None if len(self.data) == 0 else self.data[len(self.data)-1]
@@ -16,7 +16,7 @@ class Stack:
 		return len(self.data)
 
 	def clear(self, v=None):
-		self.data = [] if v = None else [v]
+		self.data = [] if v is None else [v]
 
 
 def validate(password):
