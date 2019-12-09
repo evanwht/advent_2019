@@ -2,7 +2,7 @@
 __author__ = "evanwht1@gmail.com"
 
 
-def main():
+def challenge_1():
 	orbits = {}
 	with open('day_6_orbits.txt', 'r') as r:
 		for orbit in r:
@@ -37,6 +37,34 @@ def count(planet, orbits, depth):
 	return depth
 
 
+def challenge_2():
+	planets = {}
+	with open('day_6_orbits.txt', 'r') as r:
+		for orbit in r:
+			i = orbit.find(')')
+			center = orbit[:i].strip()
+			orb = orbit[i + 1:].strip()
+			if orb not in planets:
+				planets[orb] = [center]
+			else:
+				planets[orb].append(center)
+			if center not in planets:
+				planets[center] = [orb]
+			else:
+				planets[center].append(orb)
+	print(dist_to("YOU", "SAN", planets, []) - 1)
+
+
+def dist_to(cur, end, planets, visited):
+	visited.append(cur)
+	if end in planets[cur]:
+		return 0
+	else:
+		dists = [dist_to(i, end, planets, visited) for i in planets[cur] if i not in visited]
+		t = -1 if not dists else max(dists)
+		return 1 + t if t >= 0 else t
+
+
 if __name__ == "__main__":
-	main()
+	challenge_2()
 
