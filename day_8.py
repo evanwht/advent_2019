@@ -38,6 +38,16 @@ def main():
 			elif v == 2:
 				num_2_digits += 1
 	print(num_2_digits * num_1_digits)
+
+	final_pic = [[-1 for j in range(len(picture[0][0]))] for i in range(len(picture[0]))]
+	for n,l in picture.items():
+		for r,c in l.items():
+			for k,v in c.items():
+				if v != 2 and final_pic[r][k] == -1:
+					final_pic[r][k] = v
+	for r in final_pic:
+		print(str(r).replace('[', '').replace(']', '').replace(',', '').replace('0', ' ').replace('1',  u"\u2588"))
+
 	return
 
 
