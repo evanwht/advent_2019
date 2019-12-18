@@ -2,6 +2,7 @@
 __author__ = "evanwht1@gmail.com"
 
 import sys
+import math
 
 
 def main():
@@ -10,6 +11,8 @@ def main():
 	with open('asteroid_belt.txt', 'r') as r:
 		for line in r:
 			grid.append([c for c in line.strip()])
+	# need to swap grid because we read in x as y and y as x
+	grid = list(map(list, zip(*grid)))
 
 	steps = get_steps(grid)
 
@@ -25,10 +28,68 @@ def main():
 					sees += num_see(grid, pos, step[0], step[1])
 				if sees > num_seen:
 					num_seen = sees
-					best = pos[1], pos[0]
+					best = pos
 
 	print("{} sees {}".format(best, num_seen))
+
+	# start blasting asteroids
+	nth = find_nth_blasted(grid, best, steps, 200)
+	print(nth)
 	return
+
+
+def comparator_qaud(pos):
+	return math.atan2(pos[0], pos[1])
+
+
+def walk(grid, pos, x, y):
+	pos = (pos[0] + x, pos[1] + y)
+	while in_bounds(pos[0], len(grid)) and in_bounds(pos[1], len(grid[0])) and grid[pos[0]][pos[1]] == '.':
+		pos = (pos[0]+x, pos[1]+y)
+	if in_bounds(pos[0], len(grid)) and in_bounds(pos[1], len(grid[0])) and grid[pos[0]][pos[1]] == '#':
+		return pos
+	return None
+
+
+def find_nth_blasted(grid, start, steps, n):
+	# start by looking 'up'
+	steps.sort(key=comparator_qaud)
+	print(steps)
+
+	# quadrant 1
+	blasted = 0
+	for step in steps:
+		pos = walk(grid, start, step[0], -step[1])
+		if pos:
+			grid[pos[0]][pos[1]] = '.'
+			blasted += 1
+			if blasted == n:
+				return pos
+	# quadrant 2
+	for step in steps:
+		pos = walk(grid, start, step[1], step[0])
+		if pos:
+			grid[pos[0]][pos[1]] = '.'
+			blasted += 1
+			if blasted == n:
+				return pos
+	# quadrant 3
+	for step in steps:
+		pos = walk(grid, start, -step[0], step[1])
+		if pos:
+			grid[pos[0]][pos[1]] = '.'
+			blasted += 1
+			if blasted == n:
+				return pos
+	# quadrant 4
+	for step in steps:
+		pos = walk(grid, start, -step[1], -step[0])
+		if pos:
+			grid[pos[0]][pos[1]] = '.'
+			blasted += 1
+			if blasted == n:
+				return pos
+	return None
 
 
 def get_steps(grid):
@@ -107,12 +168,18 @@ def create_grid(x, y):
 
 
 def tests():
-	expected = [(1, 2), (1, 3), (1, 4), (1, 5), (2, 1), (2, 3), (2, 5), (3, 1), (3, 2), (3, 4), (3, 5), (4, 1), (4, 3), (4, 5), (5, 1), (5, 2), (5, 3), (5, 4), (0, 1), (1, 0), (1, 1)]
-	if get_steps(create_grid(6, 6)) != expected:
-		print("get_steps not working correctly")
-		sys.exit(1)
+	# expected = [(1, 2), (1, 3), (1, 4), (1, 5), (2, 1), (2, 3), (2, 5), (3, 1), (3, 2), (3, 4), (3, 5), (4, 1), (4, 3), (4, 5), (5, 1), (5, 2), (5, 3), (5, 4), (0, 1), (1, 0), (1, 1)]
+	# if get_steps(create_grid(6, 6)) != expected:
+	# 	print("get_steps not working correctly")
+	# 	sys.exit(1)
+
+	grid = [['#', '#', '#'],
+			['#', '#', '#'],
+			['#', '#', '#']]
+	pos = find_nth_blasted(grid, (0, 0), get_steps(grid), 2)
+	print(pos)
 
 
 if __name__ == "__main__":
-	# print(get_steps(create_grid(6, 6)))
-	main()
+	# main()
+	tests()
