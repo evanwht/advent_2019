@@ -39,7 +39,7 @@ def main():
 
 
 def comparator_qaud(pos):
-	return math.atan2(pos[0], pos[1])
+	return math.atan2(pos[1], pos[0])
 
 
 def walk(grid, pos, x, y):
@@ -54,12 +54,14 @@ def walk(grid, pos, x, y):
 def find_nth_blasted(grid, start, steps, n):
 	# start by looking 'up'
 	steps.sort(key=comparator_qaud)
+	# remove this as it will move along the axis in the next quadrant
+	steps.remove((0, 1))
 	print(steps)
 
 	# quadrant 1
 	blasted = 0
 	for step in steps:
-		pos = walk(grid, start, step[0], -step[1])
+		pos = walk(grid, start, step[1], -step[0])
 		if pos:
 			grid[pos[0]][pos[1]] = '.'
 			blasted += 1
@@ -67,7 +69,7 @@ def find_nth_blasted(grid, start, steps, n):
 				return pos
 	# quadrant 2
 	for step in steps:
-		pos = walk(grid, start, step[1], step[0])
+		pos = walk(grid, start, step[0], step[1])
 		if pos:
 			grid[pos[0]][pos[1]] = '.'
 			blasted += 1
@@ -75,7 +77,7 @@ def find_nth_blasted(grid, start, steps, n):
 				return pos
 	# quadrant 3
 	for step in steps:
-		pos = walk(grid, start, -step[0], step[1])
+		pos = walk(grid, start, -step[1], step[0])
 		if pos:
 			grid[pos[0]][pos[1]] = '.'
 			blasted += 1
@@ -83,7 +85,7 @@ def find_nth_blasted(grid, start, steps, n):
 				return pos
 	# quadrant 4
 	for step in steps:
-		pos = walk(grid, start, -step[1], -step[0])
+		pos = walk(grid, start, -step[0], -step[1])
 		if pos:
 			grid[pos[0]][pos[1]] = '.'
 			blasted += 1
@@ -181,5 +183,5 @@ def tests():
 
 
 if __name__ == "__main__":
-	# main()
-	tests()
+	main()
+	# tests()
