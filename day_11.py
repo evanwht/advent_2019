@@ -54,7 +54,7 @@ def main():
 
 	bot = IntCode.IntCodeMachine(program)
 	# pre populate start and immediately neighboring squares with black value
-	hull = {(0, 0): 0, (0, 1): 0, (1, 0): 0, (0, -1): 0, (-1, 0): 0,
+	hull = {(0, 0): 1, (0, 1): 0, (1, 0): 0, (0, -1): 0, (-1, 0): 0,
 			(1, 1): 0, (-1, 1): 0, (1, -1): 0, (-1, -1): 0}
 	pos = (0, 0)
 	painted = set()
@@ -70,7 +70,23 @@ def main():
 		turn = bot.run()
 		pos = direction.walk(turn.val, pos)
 	print(len(painted))
+
+	xs = sorted(hull.keys(), key=compare_x)
+	ys = sorted(hull.keys(), key=compare_y)
+	grid = [[0 for j in range(xs[0][0], xs[len(xs)-1][0])] for i in range(ys[0][1], ys[len(ys)-1][1])]
+	for h in hull.keys():
+		grid[h[1]][h[0]] = hull[h]
+	for g in grid:
+		print(str(g).replace('[', '').replace(']', '').replace(',', '').replace('0', ' '))
 	return
+
+
+def compare_x(pos):
+	return pos[0]
+
+
+def compare_y(pos):
+	return pos[1]
 
 
 if __name__ == "__main__":
