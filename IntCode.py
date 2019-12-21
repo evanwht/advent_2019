@@ -49,8 +49,8 @@ class Output:
 
 
 class IntCodeMachine:
-	def __init__(self, values, identifier=''):
-		self.values = [0 for i in range(len(values) * 110)]
+	def __init__(self, values, identifier='', mult=1):
+		self.values = [0 for i in range(len(values) * mult)]
 		self.values[0:len(values)] = values[:]
 		self.identifier = identifier
 		self.inputs = []

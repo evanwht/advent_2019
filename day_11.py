@@ -77,7 +77,7 @@ def main():
 	for h in hull.keys():
 		grid[h[1]][h[0]] = hull[h]
 	for g in grid:
-		print(str(g).replace('[', '').replace(']', '').replace(',', '').replace('0', ' '))
+		print(''.join(map(str, g)).replace('0', ' ').replace('1', u"\u2588"))
 	return
 
 
