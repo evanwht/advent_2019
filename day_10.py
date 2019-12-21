@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 __author__ = "evanwht1@gmail.com"
 
-import json
 import math
 
 
