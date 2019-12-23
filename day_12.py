@@ -2,7 +2,7 @@
 __author__ = "evanwht1@gmail.com"
 
 import math
-from functools import reduce    # need this line if you're using Python3.x
+from functools import reduce  # need this line if you're using Python3.x
 
 
 class Moon:
@@ -10,6 +10,7 @@ class Moon:
 		self.og_x, self.og_y, self.og_z = x, y, z
 		self.x, self.y, self.z = x, y, z
 		self.vel_x, self.vel_y, self.vel_z = 0, 0, 0
+
 
 	def accelerate(self, others):
 		# first modify velocity by each of the other moons
@@ -22,17 +23,21 @@ class Moon:
 				if o.z != self.z:
 					self.vel_z = self.vel_z + (1 if o.z > self.z else -1)
 
+
 	def move(self):
 		self.x += self.vel_x
 		self.y += self.vel_y
 		self.z += self.vel_z
 
+
 	def reset(self):
 		self.x, self.y, self.z = self.og_x, self.og_y, self.og_z
 		self.vel_x, self.vel_y, self.vel_z = 0, 0, 0
 
+
 	def energy(self):
 		return (abs(self.x) + abs(self.y) + abs(self.z)) * (abs(self.vel_x) + abs(self.vel_y) + abs(self.vel_z))
+
 
 	def has_returned(self, dimension):
 		if dimension == 'x':
@@ -41,6 +46,7 @@ class Moon:
 			return self.y == self.og_y and self.vel_y == 0
 		elif dimension == 'z':
 			return self.z == self.og_z and self.vel_z == 0
+
 
 	def __repr__(self):
 		return '{' + "{}, {}, {}".format(self.x, self.y, self.z) + '}'
@@ -72,11 +78,11 @@ def main():
 			moon.accelerate(moons)
 		for moon in moons:
 			moon.move()
-		if all([moon.has_returned('x') for moon in moons]):
+		if all([moon.has_returned('x') for moon in moons]) and x == 0:
 			x = i
-		if all([moon.has_returned('y') for moon in moons]):
+		if all([moon.has_returned('y') for moon in moons]) and y == 0:
 			y = i
-		if all([moon.has_returned('z') for moon in moons]):
+		if all([moon.has_returned('z') for moon in moons]) and z == 0:
 			z = i
 
 	print("{} {} {}".format(x, y, z))
@@ -85,7 +91,7 @@ def main():
 
 
 def lcm(denominators):
-	return reduce(lambda a, b: a*b // math.gcd(a, b), denominators)
+	return reduce(lambda a, b: a * b // math.gcd(a, b), denominators)
 
 
 if __name__ == "__main__":
